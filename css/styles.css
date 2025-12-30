@@ -1,0 +1,766 @@
+:root {
+    /* Fundo / superfícies */
+    --bg-app: #f5f5f7;          /* fundo geral */
+    --bg-section: #ffffff;      /* bloco principal (cards grandes) */
+    --bg-surface: #f9fafb;      /* cartões internos / accordions */
+    --bg-surface-alt: #f3f4f6;  /* variação leve */
+
+    /* Bordas / sombra */
+    --border-subtle: #d4d4dd;
+    --border-strong: #b0b0c0;
+    --shadow-soft: 0 0 8px rgba(15, 23, 42, 0.08);
+
+    /* Texto */
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+
+    /* Inputs / código */
+    --input-bg: #ffffff;
+    --input-readonly-bg: #f9fafb;
+    --input-border: #d1d5db;
+    --code-bg: #0b1120;
+    --code-border: #1f2937;
+
+    /* Acento (vermelho Adobe-ish) */
+    --accent-main: #e11d48;
+    --accent-main-soft: #fee2e2;
+    --accent-main-strong: #be123c;
+
+    /* Tabs */
+    --tab-bg: #e5e7eb;
+    --tab-bg-active: #e11d48;
+    --tab-border: #d4d4dd;
+    --tab-text: #374151;
+    --tab-text-active: #ffffff;
+
+    /* Chips / toggles */
+    --chip-bg: #f3f4f6;
+    --chip-border: #d1d5db;
+
+    /* Tiers (cores dos accordions) */
+
+    /* Tier 1 – blocos principais (Push, Banner, Marketing Screen) */
+    --tier1-bg: #fee2e2;         /* vermelho bem claro (fechado) */
+    --tier1-bg-active: #fecaca;  /* vermelho um pouco mais forte (aberto) */
+    --tier1-border: #fecaca;
+
+    /* Tier 2 – itens internos (Push 1, Banner 1, blocos Mkt) */
+    --tier2-bg: #dbeafe;         /* azul claro (fechado) */
+    --tier2-bg-active: #bfdbfe;  /* azul mais forte (aberto) */
+    --tier2-border: #bfdbfe;
+
+    /* Tier 3 – processos + “Principal” da MktScreen */
+    --tier3-bg: #fefce8;         /* amarelo bem claro (fechado) */
+    --tier3-bg-active: #fef3c7;  /* amarelo mais forte (aberto) */
+    --tier3-border: #fef3c7;
+
+    /* Tier 4 – Farol: neutro/default */
+    --tier4-bg: var(--bg-surface);
+    --tier4-bg-active: #e5e7eb;
+    --tier4-border: var(--border-subtle);
+
+}
+
+/* Tema base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: var(--bg-app);
+    color: var(--text-primary);
+}
+
+/* Container do conteúdo */
+.content-container {
+    padding: 20px;
+}
+
+/* === SEÇÕES === */
+.section {
+    background: var(--bg-section);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Títulos das divisões */
+.section h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 18px;
+}
+
+/* === LAYOUT DE CAMPOS (GRID) === */
+
+/* Grid genérico de campos */
+.fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px 12px;
+    margin-bottom: 8px;
+}
+
+/* Grid específico para Título / Subtítulo / URL (3 colunas iguais) */
+.fields-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 12px;
+    margin-bottom: 8px;
+}
+
+/* Campo padrão */
+.field {
+    margin-bottom: 8px;
+}
+
+.field-full {
+    grid-column: 1 / -1;
+}
+
+/* === CAMPOS (inputs / textareas) === */
+
+.field label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.input,
+.readonly {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    box-sizing: border-box;
+}
+
+.readonly {
+    background: var(--input-readonly-bg);
+}
+
+.input-inline {
+    width: 80px;
+    display: inline-block;
+}
+
+.readonly-multiline,
+.json-final {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--input-border);
+    background: var(--input-readonly-bg);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    resize: vertical;
+    white-space: pre-wrap;
+}
+
+/* Multiline padrão */
+.readonly-multiline {
+    min-height: 60px;
+    font-size: 13px;
+}
+
+/* JSON Final (blocos de código editáveis) */
+.json-final {
+    min-height: 120px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+}
+
+.status-value.status-building,
+.status-value.status-ready,
+.status-value.status-qa,
+.status-value.status-ativ,
+.status-value.status-done {
+  color: #e11d48;   /* azul */
+  font-weight: 700;
+}
+
+/* Textarea curta para Accessibility Text (1 linha visual, sem resize) */
+.acc-textarea {
+    min-height: 28px;
+    max-height: 28px;
+    height: 28px;
+    resize: none;
+}
+
+/* Textarea maior para Mensagem do Farol (~10 linhas) */
+.farol-text {
+    min-height: 180px;
+}
+
+/* Classe efetivamente usada no Farol */
+.farol-textarea {
+    min-height: 360px;
+    background: var(--input-bg);
+}
+
+/* Entrada do card: 1 linha só (usada para Card Original e Card Extract) */
+.card-input {
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    box-sizing: border-box;
+    height: 70px;
+    min-height: 70px;
+    max-height: 620px;
+    resize: vertical;
+}
+
+/* === CARD ORIGINAL + CARD EXTRACT (lado a lado) === */
+.card-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 6px;
+}
+
+.card-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+@media (max-width: 900px) {
+    .card-row {
+        flex-direction: column;
+    }
+}
+
+/* === BLOCO DE INFORMAÇÕES COMPACTAS (título do card) === */
+
+.info-group {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.info-row {
+    margin-bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+.info-value {
+    color: var(--text-primary);
+}
+
+/* === METADADOS COMPACTOS (push / banner / mkt) === */
+
+.meta-row {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+
+/* === BLOCO DE CÓDIGO (JSON etc.) === */
+
+.code-block {
+    background: var(--input-readonly-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+    max-height: 220px;
+    overflow: auto;
+    white-space: pre;
+    box-sizing: border-box;
+    color: var(--text-primary);
+}
+
+/* === ABAS === */
+.tabs-container {
+    display: flex;
+    align-items: stretch;
+    background: var(--bg-surface);
+    padding: 6px 12px;
+    gap: 6px;
+    border-bottom: 1px solid var(--border-subtle);
+
+    flex-wrap: nowrap;
+    overflow-x: auto; 
+    overflow-y: hidden;
+}
+
+/* Aba padrão */
+.tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: var(--tab-bg);
+    color: var(--tab-text);
+    border-radius: 6px 6px 0 0;
+    border: 1px solid var(--tab-border);
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+
+    flex: 0 0 260px;
+    white-space: normal;
+}
+
+.tab:hover {
+    background: var(--bg-surface-alt);
+}
+
+/* Aba ativa */
+.tab.active {
+    background: var(--tab-bg-active);
+    color: var(--tab-text-active);
+    border-color: var(--tab-bg-active);
+}
+
+/* Aba título (clicável) */
+.tab-title {
+    flex: 1 1 auto;
+    cursor: pointer;
+
+    white-space: normal;
+    line-height: 1.2;
+    min-width: 0;
+
+    max-height: none;
+    overflow: visible;
+}
+
+
+/* Botão de fechar aba */
+.close-tab {
+    cursor: pointer;
+    color: #888;
+    font-weight: bold;
+    padding: 0 4px;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.close-tab:hover {
+    background: #ff4444;
+    color: white;
+}
+
+/* Botão "+" (add tab) */
+.add-tab {
+    background: transparent;
+    color: var(--tab-text);
+    border: 1px dashed var(--tab-border);
+    padding: 6px 14px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* Canais */
+.channels-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.channel-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    font-size: 12px;
+}
+
+.channel-value {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #151515;
+    border: 1px solid #333;
+    color: #f0f0f0;
+}
+
+/* === CARDS INTERNOS (conteúdo dentro de accordions) === */
+
+.subsection {
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 10px 10px 4px 10px;
+    margin-bottom: 8px;
+}
+
+/* Hint quando não tem nada */
+.empty-hint {
+    font-size: 13px;
+    color: #777777;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+/* === ACCORDION / TOGGLES === */
+
+.accordion {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: var(--bg-surface);
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 9px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--bg-surface);
+    transition: background 0.15s ease, filter 0.15s ease;
+}
+
+.accordion-header:hover {
+    background: var(--bg-surface-alt);
+}
+
+.accordion-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+/* Títulos dos blocos macros (Push, Banner, Marketing Screen) */
+.accordion-header:not(.accordion-header-small) .accordion-title {
+    font-size: 16px;
+}
+
+.accordion-meta {
+    flex: 1;
+    text-align: right;
+    font-size: 12px;
+    color: #9a9a9a;
+}
+
+.accordion-arrow {
+    font-size: 12px;
+    transition: transform 0.15s ease;
+}
+
+.accordion-header.open .accordion-arrow {
+    transform: rotate(90deg);
+}
+
+.accordion-body {
+    display: none;
+    padding: 6px 10px 10px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.accordion-body.open {
+    display: block;
+}
+
+.accordion-item {
+    margin-bottom: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface-alt);
+}
+
+/* Header menor para itens internos (Push 1, Push 2, etc.) */
+.accordion-header-small {
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+/* === Hierarquia de tiers (cores diferentes) === */
+
+/* Tier 1 – blocos principais (Push, Banner, Marketing Screen) */
+.accordion-tier1 > .accordion-header {
+    background: var(--tier1-bg);
+    border-bottom: 1px solid var(--tier1-border);
+}
+.accordion-tier1 > .accordion-header.open {
+    background: var(--tier1-bg-active);
+}
+
+/* Tier 2 – Push 1, Push 2, Banners individuais, blocos da MktScreen */
+.accordion-tier2 > .accordion-header {
+    background: var(--tier2-bg);
+    border-bottom: 1px solid var(--tier2-border);
+}
+.accordion-tier2 > .accordion-header.open {
+    background: var(--tier2-bg-active);
+}
+
+/* Tier 3 – Testes, QA e Envio/Ativação + Principal da MktScreen */
+.accordion-tier3 > .accordion-header {
+    background: var(--tier3-bg);
+    border-bottom: 1px solid var(--tier3-border);
+}
+.accordion-tier3 > .accordion-header.open {
+    background: var(--tier3-bg-active);
+}
+
+/* Tier 4 – Farol / Anotações / Checks de QA */
+.accordion-tier4 > .accordion-header {
+  background: var(--tier4-bg);
+  border-bottom: 1px solid var(--tier4-border);
+}
+
+.accordion-tier4 > .accordion-header.open {
+  background: var(--tier4-bg-active);
+}
+
+
+/* Texto dentro dos tiers */
+.accordion-tier1 .accordion-title,
+.accordion-tier2 .accordion-title,
+.accordion-tier3 .accordion-title,
+.accordion-tier4 .accordion-title {
+    color: var(--text-primary);
+}
+
+/* linha do Accessibility Text: textarea + botão lado a lado */
+.acc-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.acc-row textarea {
+    flex: 1;
+}
+
+/* Toggle "JSON gerado (original)" com o mesmo tamanho de label */
+.json-original-toggle > summary {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+/* Botões genéricos do app */
+button {
+    font-size: 12px;
+}
+
+/* Estilo base pros botões secundários (Gerar / Mostrar imagem / etc.) */
+.btn-secondary {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #202020;
+    color: #f5f5f5;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+
+.btn-secondary:hover {
+    background: #2b2b2b;
+    border-color: #555;
+}
+
+.btn-secondary:active {
+    transform: scale(0.97);
+}
+
+/* Bloco da imagem do banner */
+.image-preview-block {
+    margin-top: -10px;
+    margin-bottom: 16px;
+}
+
+/* Observações gerais de card */
+.notes-input {
+    width: 100%;
+    resize: vertical;
+    max-height: 320px;
+    min-height: 160px;
+    background: var(--input-bg);
+}
+
+/* === PROCESSOS (Testes / QA / Farol / Conclusão) === */
+
+.process-section {
+    padding: 4px 0 6px;
+}
+
+.process-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 4px 0 8px;
+}
+
+/* Status tipo "PRONTO PARA QA!" / "ENVIAR!" / "CANAL CONCLUIDO!" */
+.process-status {
+    font-size: 12px;
+    font-weight: 700;
+    color: #166534;
+    background: transparent;
+    border-radius: 0;
+    padding-top: 5px;
+    margin-left: 4px;
+    display: none;
+    white-space: nowrap;
+}
+
+/* Linha que junta os botões Sim/Não com o status */
+.process-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+/* grupo de botões Sim/Não */
+.toggle-group {
+    display: inline-flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.toggle-chip {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg);
+    color: var(--text-primary);
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease, filter 0.15s ease;
+}
+
+.toggle-chip.no.active {
+    background: #7f1d1d;
+    border-color: #ef4444;
+    color: #fff;
+}
+
+.toggle-chip.yes.active {
+    background: #166534;
+    border-color: #22c55e;
+    color: #fff;
+}
+
+/* Estado selecionado: deixa o chip levemente mais “carregado” */
+.toggle-chip.active {
+    filter: brightness(0.9);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.toggle-chip:active {
+    transform: scale(0.97);
+}
+
+/* link do card dentro dos blocos de processo */
+.link-card {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.link-card:hover {
+    text-decoration: underline;
+}
+
+/* ===================== QA CHECKS ===================== */
+
+.qa-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto minmax(220px, 1.2fr);
+  gap: 10px;
+  align-items: center;
+
+  padding: 6px 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  background: var(--bg-surface-alt);
+  margin-bottom: 6px;
+}
+
+.qa-item-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.qa-obs-input {
+  width: 100%;
+}
+
+.qa-output {
+  min-height: 160px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  background: var(--input-bg);
+}
+
+.qa-output-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .qa-item-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Deixa o lápis com o mesmo "box" do X, alinhado e mais cinza */
+.tab {
+  display: flex;
+  align-items: center;
+}
+
+.edit-tab,
+.close-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;          /* ajuste para bater com seu X */
+  height: 24px;         /* ajuste para bater com seu X */
+  line-height: 24px;
+
+  font-size: 14px;      /* igual ao X (ajuste se necessário) */
+  margin-left: 6px;     /* espaçamento do título */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Lápis mais acinzentado */
+.edit-tab {
+  color: #9aa0a6;       /* cinza “UI” */
+}
+
+.edit-tab:hover {
+  color: #6f7782;       /* hover um pouco mais escuro */
+}
+
+/* (Opcional) mantém o X como está, ou padroniza também */
+.close-tab {
+  color: inherit;       /* ou a cor que você já usa */
+}
