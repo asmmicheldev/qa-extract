@@ -59,7 +59,6 @@
     --tier4-bg: var(--bg-surface);
     --tier4-bg-active: #e5e7eb;
     --tier4-border: var(--border-subtle);
-
 }
 
 /* Tema base */
@@ -176,13 +175,26 @@ body {
     font-size: 12px;
 }
 
-.status-value.status-building,
-.status-value.status-ready,
-.status-value.status-qa,
-.status-value.status-ativ,
+/* ===== Status (Informações Gerais) ===== */
+/* (agora cada status tem uma cor própria; o "ready" fica azul) */
+.status-value {
+    font-weight: 700;
+}
+
+.status-value.status-building {
+    color: #6b7280;
+}
+.status-value.status-ready {
+    color: #2563eb; /* azul */
+}
+.status-value.status-qa {
+    color: #f59e0b;
+}
+.status-value.status-ativ {
+    color: #7c3aed;
+}
 .status-value.status-done {
-  color: #e11d48;   /* azul */
-  font-weight: 700;
+    color: #16a34a;
 }
 
 /* Textarea curta para Accessibility Text (1 linha visual, sem resize) */
@@ -302,7 +314,7 @@ body {
     border-bottom: 1px solid var(--border-subtle);
 
     flex-wrap: nowrap;
-    overflow-x: auto; 
+    overflow-x: auto;
     overflow-y: hidden;
 }
 
@@ -348,6 +360,19 @@ body {
     overflow: visible;
 }
 
+/* Input de edição do título da aba */
+.tab-title-edit {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 13px;
+    border: 1px solid var(--input-border);
+    background: #ffffff;
+    color: var(--text-primary);
+    outline: none;
+}
 
 /* Botão de fechar aba */
 .close-tab {
@@ -512,7 +537,7 @@ body {
     background: var(--tier2-bg-active);
 }
 
-/* Tier 3 – Testes, QA e Envio/Ativação + Principal da MktScreen */
+/* Tier 3 – itens internos (QA sections / blocos) */
 .accordion-tier3 > .accordion-header {
     background: var(--tier3-bg);
     border-bottom: 1px solid var(--tier3-border);
@@ -523,14 +548,13 @@ body {
 
 /* Tier 4 – Farol / Anotações / Checks de QA */
 .accordion-tier4 > .accordion-header {
-  background: var(--tier4-bg);
-  border-bottom: 1px solid var(--tier4-border);
+    background: var(--tier4-bg);
+    border-bottom: 1px solid var(--tier4-border);
 }
 
 .accordion-tier4 > .accordion-header.open {
-  background: var(--tier4-bg-active);
+    background: var(--tier4-bg-active);
 }
-
 
 /* Texto dentro dos tiers */
 .accordion-tier1 .accordion-title,
@@ -600,7 +624,7 @@ button {
     background: var(--input-bg);
 }
 
-/* === PROCESSOS (Testes / QA / Farol / Conclusão) === */
+/* === PROCESSOS (mantido, mesmo que o QA Extract não use mais essa parte) === */
 
 .process-section {
     padding: 4px 0 6px;
@@ -687,80 +711,112 @@ button {
 /* ===================== QA CHECKS ===================== */
 
 .qa-item-row {
-  display: grid;
-  grid-template-columns: 1fr auto minmax(220px, 1.2fr);
-  gap: 10px;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 1fr auto minmax(220px, 1.2fr);
+    gap: 10px;
+    align-items: center;
 
-  padding: 6px 8px;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  background: var(--bg-surface-alt);
-  margin-bottom: 6px;
+    padding: 6px 8px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    background: var(--bg-surface-alt);
+    margin-bottom: 6px;
 }
 
 .qa-item-text {
-  font-size: 13px;
-  color: var(--text-primary);
-  line-height: 1.25;
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.25;
 }
 
 .qa-obs-input {
-  width: 100%;
+    width: 100%;
 }
 
 .qa-output {
-  min-height: 160px;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 12px;
-  background: var(--input-bg);
+    min-height: 160px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+    background: var(--input-bg);
 }
 
 .qa-output-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
 }
 
 @media (max-width: 900px) {
-  .qa-item-row {
-    grid-template-columns: 1fr;
-  }
+    .qa-item-row {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* Deixa o lápis com o mesmo "box" do X, alinhado e mais cinza */
-.tab {
-  display: flex;
-  align-items: center;
+/* ===================== QA SPLIT (NOVO LAYOUT 2 COLUNAS) ===================== */
+/* Container das duas colunas dentro de "Checks de QA" */
+.qa-split {
+    display: grid;
+    grid-template-columns: minmax(420px, 1fr) minmax(420px, 1fr);
+    gap: 14px;
+    align-items: start;
 }
+
+/* Cada coluna */
+.qa-panel {
+    min-width: 0; /* importante para evitar overflow em grids */
+}
+
+/* Reforço visual opcional para separar os lados */
+.qa-panel-right {
+    border-left: 1px solid var(--border-subtle);
+    padding-left: 14px;
+}
+
+@media (max-width: 1100px) {
+    .qa-split {
+        grid-template-columns: 1fr;
+    }
+
+    .qa-panel-right {
+        border-left: none;
+        padding-left: 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--border-subtle);
+    }
+}
+
+/* Ajuste de espaçamento dos accordions dentro da coluna direita */
+.qa-panel-right .accordion {
+    margin-bottom: 12px;
+}
+
+/* ===================== TABS: LÁPIS / X (alinhados e cinza) ===================== */
 
 .edit-tab,
 .close-tab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-  width: 24px;          /* ajuste para bater com seu X */
-  height: 24px;         /* ajuste para bater com seu X */
-  line-height: 24px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
 
-  font-size: 14px;      /* igual ao X (ajuste se necessário) */
-  margin-left: 6px;     /* espaçamento do título */
-  cursor: pointer;
-  user-select: none;
+    font-size: 14px;
+    margin-left: 6px;
+    cursor: pointer;
+    user-select: none;
 }
 
-/* Lápis mais acinzentado */
 .edit-tab {
-  color: #9aa0a6;       /* cinza “UI” */
+    color: #9aa0a6;
 }
 
 .edit-tab:hover {
-  color: #6f7782;       /* hover um pouco mais escuro */
+    color: #6f7782;
 }
 
-/* (Opcional) mantém o X como está, ou padroniza também */
 .close-tab {
-  color: inherit;       /* ou a cor que você já usa */
+    color: inherit;
 }

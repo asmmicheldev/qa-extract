@@ -11,12 +11,18 @@ let tabCount = 0;
 
 // Salva no localStorage
 export function saveState() {
-  localStorage.setItem("cardExtractData", JSON.stringify(tabsState));
+  // Opcional (mas recomendado): mudar a chave pra não conflitar com o projeto antigo
+  // Se você já tem dados salvos e quer manter, deixe "cardExtractData".
+  localStorage.setItem("qaExtractData", JSON.stringify(tabsState));
 }
 
 // Carrega do localStorage e ajusta tabCount
 export function loadState() {
-  const saved = localStorage.getItem("cardExtractData");
+  // Opcional (mas recomendado): tenta primeiro a chave nova; se não existir, tenta a antiga
+  const saved =
+    localStorage.getItem("qaExtractData") ||
+    localStorage.getItem("cardExtractData");
+
   if (saved) {
     try {
       const parsed = JSON.parse(saved);

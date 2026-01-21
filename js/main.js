@@ -237,6 +237,10 @@ function createTabFromState(tabId, data) {
   content.className = "section";
   content.id = "content_" + tabId;
 
+  // ===== IMPORTANTE (QA Extract) =====
+  // Dentro de "Checks de QA", agora temos 2 colunas:
+  // - Esquerda: checklist de QA (como já era)
+  // - Direita: estrutura de Push / Banner / Marketing Screen (sem processos)
   content.innerHTML = `
     <h2>Card</h2>
     <div class="card-row">
@@ -318,18 +322,62 @@ function createTabFromState(tabId, data) {
       </div>
     </div>
 
-    <!-- Checks de QA -->
+    <!-- Checks de QA (2 colunas: esquerda QA / direita Push-Banner-Mkt) -->
     <div class="accordion accordion-tier4" style="margin-top:12px;">
       <div class="accordion-header" data-accordion-target="qaWrap_${tabId}">
         <span class="accordion-title">Checks de QA</span>
         <span class="accordion-arrow">▸</span>
       </div>
+
       <div id="qaWrap_${tabId}" class="accordion-body">
-        <div id="qa_container_${tabId}"></div>
+        <div class="qa-split">
+          <!-- ESQUERDA: checklist de QA -->
+          <div class="qa-panel qa-panel-left">
+            <div id="qa_container_${tabId}"></div>
+          </div>
+
+          <!-- DIREITA: Push / Banner / Marketing Screen (sem processos) -->
+          <div class="qa-panel qa-panel-right qa-panel-right">
+
+            <!-- Push -->
+            <div class="accordion accordion-tier1">
+              <div class="accordion-header" data-accordion-target="pushWrap_${tabId}">
+                <span class="accordion-title">Push</span>
+                <span class="accordion-arrow">▸</span>
+              </div>
+              <div id="pushWrap_${tabId}" class="accordion-body">
+                <div id="push_container_${tabId}"></div>
+              </div>
+            </div>
+
+            <!-- Banner -->
+            <div class="accordion accordion-tier1">
+              <div class="accordion-header" data-accordion-target="bannerWrap_${tabId}">
+                <span class="accordion-title">Banner</span>
+                <span class="accordion-arrow">▸</span>
+              </div>
+              <div id="bannerWrap_${tabId}" class="accordion-body">
+                <div id="banner_container_${tabId}"></div>
+              </div>
+            </div>
+
+            <!-- Marketing Screen -->
+            <div class="accordion accordion-tier1">
+              <div class="accordion-header" data-accordion-target="mktWrap_${tabId}">
+                <span class="accordion-title">Marketing Screen</span>
+                <span class="accordion-arrow">▸</span>
+              </div>
+              <div id="mktWrap_${tabId}" class="accordion-body">
+                <div id="mkt_container_${tabId}"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Farol -->
+    <!-- Farol (mantido; pode ficar oculto dependendo das regras atuais) -->
     <div id="farolAccordion_${tabId}" class="accordion accordion-tier4" style="display:none;">
       <div class="accordion-header" data-accordion-target="farolWrap_${tabId}">
         <span class="accordion-title">Farol</span>
@@ -337,42 +385,6 @@ function createTabFromState(tabId, data) {
       </div>
       <div id="farolWrap_${tabId}" class="accordion-body">
         <div id="farol_container_${tabId}"></div>
-      </div>
-    </div>
-
-    <!-- Push pai -->
-    <div class="accordion accordion-tier1">
-      <div class="accordion-header" data-accordion-target="pushWrap_${tabId}">
-        <span class="accordion-title">Push</span>
-        <span class="accordion-arrow">▸</span>
-      </div>
-      <div id="pushWrap_${tabId}" class="accordion-body">
-        <div id="push_process_${tabId}"></div>
-        <div id="push_container_${tabId}"></div>
-      </div>
-    </div>
-
-    <!-- Banner pai -->
-    <div class="accordion accordion-tier1">
-      <div class="accordion-header" data-accordion-target="bannerWrap_${tabId}">
-        <span class="accordion-title">Banner</span>
-        <span class="accordion-arrow">▸</span>
-      </div>
-      <div id="bannerWrap_${tabId}" class="accordion-body">
-        <div id="banner_process_${tabId}"></div>
-        <div id="banner_container_${tabId}"></div>
-      </div>
-    </div>
-
-    <!-- MktScreen pai -->
-    <div class="accordion accordion-tier1">
-      <div class="accordion-header" data-accordion-target="mktWrap_${tabId}">
-        <span class="accordion-title">Marketing Screen</span>
-        <span class="accordion-arrow">▸</span>
-      </div>
-      <div id="mktWrap_${tabId}" class="accordion-body">
-        <div id="mkt_process_${tabId}"></div>
-        <div id="mkt_container_${tabId}"></div>
       </div>
     </div>
   `;
@@ -383,11 +395,16 @@ function createTabFromState(tabId, data) {
 
   if (data.canais) renderCanais(tabId, data.canais);
 
+  // Renderizações (agora entram dentro do painel direito do QA)
   renderPushList(tabId, data.pushes || []);
   renderBannerList(tabId, data.banners || []);
   renderMktScreenView(tabId, data.mktScreen || null);
-  renderChannelProcesses(tabId, data);
+
+  // Checklist de QA (painel esquerdo)
   renderQAChecks(tabId, data);
+
+  // Mantido por compatibilidade (se futuramente usar status/farol do fluxo antigo)
+  renderChannelProcesses(tabId, data);
 
   autoResizeTextareas(tabId);
 }
@@ -568,11 +585,16 @@ function processCard(tabId, texto) {
 
   renderCardLink(tabId, tabData);
 
+  // Renderizações (painel direito dentro de QA)
   renderPushList(tabId, mergedPushes);
   renderBannerList(tabId, mergedBanners);
   renderMktScreenView(tabId, mkt);
-  renderChannelProcesses(tabId, tabData);
+
+  // Checklist QA
   renderQAChecks(tabId, tabData);
+
+  // Mantido por compatibilidade
+  renderChannelProcesses(tabId, tabData);
 
   autoResizeTextareas(tabId);
   saveState();
@@ -589,7 +611,10 @@ function handleBaseChange(tabId, value) {
   const tabData = tabsState.tabs[tabId] || {};
   tabData.base = value;
   tabsState.tabs[tabId] = tabData;
+
+  // Mantido por compatibilidade (se status/farol/processos continuarem existindo)
   renderChannelProcesses(tabId, tabData);
+
   saveState();
 }
 
